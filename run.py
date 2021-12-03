@@ -23,8 +23,7 @@ def get_root():
 @app.route('/api/products', methods=['GET'])
 def products():
     global items
-    logger.info(request)
-    logger.error("products")
+    logger.info("products")
     res = []
     for row in items:
         res.append(row.to_json())
@@ -38,17 +37,9 @@ def post_create():
     global items
     item = None
     try:
-        logger.info(request)
-        logger.error("post_create")
+        logger.info("post_create")
         logger.info(request.data)
         obj = json.loads(request.data)
-        # for key, value in request.form.items():
-        #     logger.info(key, ':', value)
-        # productId = request.form['productId']
-        # type = request.form['type']
-        # price = request.form['price'].strip('\n')
-        # currencyCode = request.form['currencyCode']
-        logger.info(obj["productId"])
 
         item = Product()
         item.productId = obj["productId"]
