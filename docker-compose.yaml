@@ -1,0 +1,40 @@
+version: '3.8'
+
+volumes:
+  productdb_vol:
+
+networks:
+  micro_network:
+    external:
+      name: prod_network
+
+services:
+  product-api:
+    container_name: cproduct-service
+    image: aws_api_gw_product-api:latest
+    build:
+      context: .
+    ports:
+    - "80:80"
+    environment:
+      CONFIGURATION_SETUP: "config.DevelopmentConfig"
+    depends_on:
+      - product-db
+    networks:
+      - micro_network
+    restart: always
+
+  product-db:
+    container_name: cproduct_dbase
+    image: mysql:8
+    ports:
+    - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: product
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 123456
+    networks:
+      - micro_network
+    volumes:
+    - productdb_vol:/var/lib/mysql
